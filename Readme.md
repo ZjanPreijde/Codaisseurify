@@ -69,6 +69,7 @@ $ git init
 $ git add . 
 $ git commit -m "Created app Codaisseurify"
 $ git remote add origin git@github.com:ZjanPreijde/Codaisseurify.git
+$ git push origin master
 ```
 
 
@@ -108,7 +109,7 @@ If relation pre-existed, this migration will generate an error PB::DuplicateColu
 
 
 
-Edit ./app/models/artist.rb    (check colons, spaces and positions!)
+*Edit ./app/models/artist.rb*    (check colons, spaces and positions!)
 
 ```ruby
 class Artist
@@ -118,27 +119,48 @@ end
 
 
 
-Create seeds in ./db/seeds.rb
+*Create seeds in ./db/seeds.rb*
 
 ```ruby
 Song.destroy_all
 Artist.destroy_all
 
-# seed artists, keep values
+# Seed artists, keep values
 meatloaf = Artist.create!(name: "MeatLoaf", image_url: "")
 redhot   = Artist.create!(name: "Red Hot Chili Peppers", image_url: "")
+jay      =  Artist.create!(name: "Screamin'Jay Hawkins", image_url: "")
 
-# seed songs
-= Song.new(title: "Paradise by the Dashboard Light", artist: meatloaf)
-= Song.new(title: "Heaven Can Wait", artist: meatloaf)
-= Song.new(title: "All Revved Up With No Place To Go", artist: meatloaf)
+# Seed songs
+Song.create!(title: "Paradise by the Dashboard Light", artist: meatloaf)
+Song.create!(title: "Heaven Can Wait", artist: meatloaf)
+Song.create!(title: "All Revved Up With No Place To Go", artist: meatloaf)
 
-= Song.new(title: "Californication", artist: redhot)
-= Song.new(title: "Under the Bridge", artist: redhot)
-= Song.new(title: "Give It Away", artist: redhot)
+Song.create!(title: "Californication", artist: redhot)
+Song.create!(title: "Under the Bridge", artist: redhot)
+Song.create!(title: "Give It Away", artist: redhot)
 
+Song.create!(title: "Californication", artist: jay)
+Song.create!(title: "Under the Bridge", artist: jay)
+Song.create!(title: "Give It Away", artist: jay)
+```
+
+
+
+*Run the seed*
 
 ```
+$ rails db:seed
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
