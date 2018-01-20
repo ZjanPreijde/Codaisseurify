@@ -198,6 +198,10 @@ $ rails console
 
 
 
+------
+
+
+
 #### Controllers & Views - Basic requirements
 
 ##### Artists Overview Page
@@ -225,7 +229,108 @@ Add a show page for every artist that meets the following requirements:
 
 #### Deployment
 
-- Configure your app to be deployed.
+- Configure app to be deployed
+- Heroku is installed
+- Cloudinary environment variable is set
+
+
+
+
+Setup styling
+
+.Gemfile
+
+```ruby
+# Use Bootstrap for styling
+gem 'bootstrap-sass', '~> 3.3.6'
+
+# Use jQuery for easier javascript
+gem 'jquery-rails', '~> 4.3.1'
+```
+
+```shell
+$ spring stop
+$ bundle install
+```
+
+**!!** *Change extension of ./app/assets/stylesheets/application.css to .scss*
+
+*./app/assets/stylesheets/application.scss*, pull Bootstrap into the app
+
+```css
+@import "bootstrap-sprockets";
+@import "bootstrap";
+```
+
+*./app/assets/javascripts/application.js*, replace content with
+
+```js
+// application.js
+
+//= require jquery
+//= require bootstrap-sprockets
+//= require jquery_ujs
+//= require_tree .
+```
+
+*Restart rails server*
+
+<u>Stumbled up on</u> :
+
+- Don't forget to change the extension of application.css
+
+
+
+*Create controllers for Artists and Songs*
+
+```shell
+$ rails generate controller Artists
+$ rails generate controller Songs
+```
+
+*Create controller for home page*
+
+```shell
+$ rails generate controller pages home
+```
+
+*./apps/views/pages_controller.erb*
+
+```ruby
+class PagesController < ApplicationController
+  def home
+  end
+end
+```
+
+*./apps/views/pages/home.html.erb*
+
+```html
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1 class="text-center">Codaisseurify!</h1>
+    <div class="col-md-12 text-center">
+      Ready for a whole new Spotify?
+    </div>
+  </div>
+</div>
+```
+
+*./config/routes.rb*, setup routing
+
+```ruby
+Rails.application.routes.draw do
+  get 'pages/home'
+  resources :artists
+  resources :artists do
+    resources :songs
+end
+```
+
+- [x] Local Home page is up
+- [ ] Push to github
+- [ ] Deploy to Heroku
+- [ ] Heroku Home page is up
 
 
 
@@ -247,7 +352,13 @@ $ bundle install
 $ rails generate uploader image
 ```
 
-*Set up Cloudinary*
+*Edit ./apps/uploaders/image_uploader*, make it look like this
+
+```ruby
+class ImageUploader < CarrierWave::Uploader::Base
+  include Cloudinary::CarrierWave
+end
+```
 
 
 
@@ -262,6 +373,7 @@ $ rails generate uploader image
 .Gemfile
 
 ```ruby
+# For testing
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
 end
@@ -277,11 +389,16 @@ group :development, :test do
 end
 ```
 
+```shell
+$ spring stop
+$ bundle install
+```
 
 
-*Setup deployment*
 
-.Gemfile, top of file :
+*Setup deployment* (Heroku is installed, Cloudinary environment variable is set)
+
+*.Gemfile*, top of file :
 
 ```ruby
 source 'https://rubygems.org'
@@ -289,13 +406,36 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 ```
 
-.Gemfile
+*.Gemfile*
 
 ```ruby
+# For deployment
 gem 'rails_12factor', group: :production
 ```
 
+```shell
+$ spring stop
+$ bundle install
+```
 
+*Set up Heroku app locally*
 
+```shell
+$ heroku create cfy_zjan
+$ heroku config:set CLOUDINARY_URL=$CLOUDINARY_URL
+```
 
+<u>Stumbled up on</u> :
+
+- Heroku does not know what to do before you define the app-name for current project.
+
+*Deploy to heroku*
+```shell
+$ git add .
+$ git commit -m "App set up for deployment"
+$ git push origin master
+$ git push heroku master
+```
+
+App is now deployed at https://cfy-zjan.herokuapp.com/
 
