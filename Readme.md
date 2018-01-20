@@ -46,7 +46,7 @@ $ rails server
 
 Make sure there is always a database connection established when entering the Rails console.
 
-*Edit ./config/application.rb*
+*./config/application.rb*, add console do
 
 ```ruby
 # config/application.rb
@@ -99,7 +99,24 @@ $ git commit -m "Meaningfull message"
 *and push them to remote once in a while*
 
 ```shell
-$ git push origin remote
+$ git push origin master
+```
+
+<u>Stumbled up on</u> :  (in another project)
+
+When trying to link local repository to remote, I got the message :
+
+```shell
+$ git remote add origin git@github.com:ZjanPreijde/CodeDojo-TennisScore.git
+fatal: remote origin already exists.
+```
+
+Apparently I had already done something, that made this impossible. 
+
+Solved it by :
+
+```shell
+$ git remote set-url origin git@github.com:ZjanPreijde/CodeDojo-TennisScore.git
 ```
 
 
@@ -135,7 +152,13 @@ Running via Spring preloader in process 28846
 $ rails db:migrate
 ```
 
-If relation pre-existed, this migration will generate an error PG::DuplicateColumn: Error column "artist_id" of relation "song" already exists. Just delete the migration from ./db/migrate/
+If relation pre-existed, this migration will generate an error 
+
+```ruby
+PG::DuplicateColumn: Error column "artist_id" of relation "song" already exists.
+```
+
+ Just delete the migration from ./db/migrate/, content has not been executed.
 
 
 
@@ -281,59 +304,6 @@ $ bundle install
 
 
 
-*Create controllers for Artists and Songs*
-
-```shell
-$ rails generate controller Artists
-$ rails generate controller Songs
-```
-
-*Create controller for home page*
-
-```shell
-$ rails generate controller pages home
-```
-
-*./apps/views/pages_controller.erb*
-
-```ruby
-class PagesController < ApplicationController
-  def home
-  end
-end
-```
-
-*./apps/views/pages/home.html.erb*
-
-```html
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <h1 class="text-center">Codaisseurify!</h1>
-    <div class="col-md-12 text-center">
-      Ready for a whole new Spotify?
-    </div>
-  </div>
-</div>
-```
-
-*./config/routes.rb*, setup routing
-
-```ruby
-Rails.application.routes.draw do
-  get 'pages/home'
-  resources :artists
-  resources :artists do
-    resources :songs
-end
-```
-
-- [x] Local Home page is up
-- [ ] Push to github
-- [ ] Deploy to Heroku
-- [ ] Heroku Home page is up
-
-
-
 *Set up CarrierWave and Cloudinary*
 
 .Gemfile
@@ -359,12 +329,6 @@ class ImageUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
 end
 ```
-
-
-
-*Create overview page of Artists*
-
-
 
 
 
@@ -429,13 +393,83 @@ $ heroku config:set CLOUDINARY_URL=$CLOUDINARY_URL
 
 - Heroku does not know what to do before you define the app-name for current project.
 
+
+
+*Create controllers for Artists and Songs*
+
+```shell
+$ rails generate controller Artists
+$ rails generate controller Songs
+```
+
+*Create controller for home page*
+
+```shell
+$ rails generate controller pages home
+```
+
+*./apps/views/pages_controller.erb*
+
+```ruby
+class PagesController < ApplicationController
+  def home
+  end
+end
+```
+
+*./apps/views/pages/home.html.erb*
+
+```html
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1 class="text-center">Codaisseurify!</h1>
+    <div class="col-md-12 text-center">
+      Ready for a whole new Spotify?
+    </div>
+  </div>
+</div>
+```
+
+*./config/routes.rb*, setup routing
+
+```ruby
+Rails.application.routes.draw do
+  get 'pages/home'
+  resources :artists
+  resources :artists do
+    resources :songs
+end
+```
+
+*Push to github*
+
 *Deploy to heroku*
+
 ```shell
 $ git add .
-$ git commit -m "App set up for deployment"
+$ git commit -m "Gems installed for styling, image uploading and hosting, testing, deployment. Home page set up"
 $ git push origin master
 $ git push heroku master
 ```
 
-App is now deployed at https://cfy-zjan.herokuapp.com/
+App on Heroku : https://cfy-zjan.herokuapp.com/
+
+<u>Stumbled up on</u> : 
+
+- Heroku deployment process : Warning: the running version of Bundler (1.15.2) is older than the version that created the lockfile (1.16.1). We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.
+
+
+
+- [x] Local Home page is up
+- [x] Push to github
+- [x] Deploy to Heroku
+- [x] Heroku Home page is up
+
+
+
+*Create overview page of Artists*
+
+
+
+
 
