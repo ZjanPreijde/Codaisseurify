@@ -1,13 +1,30 @@
 
 
-# Codaisseurify
+# App - Codaisseurify
 
-App Codaisseurify
+#### Models - Basic Requirements
 
-- artists and songs
-- artist has 0...many songs
-- song has 1 artist
+##### Generate the App
 
+- Create a new Rails application called "Codaisseurify".
+  - Make sure that the app uses PostgreSQL for the database.
+  - It does not have turbolinks
+  - Make sure that no test framework is installed by default when creating the app.
+
+##### Models
+
+- Create two models: `Song` and `Artist`.
+- Define the relationship between them:
+  - A song can only be linked to one artist.
+  - An artist can have many songs.
+
+##### Seeds
+
+- Create some initial data adding some seeds to the database with some songs and artists.
+- The seeds should reflect the association between every song and its artist.
+- Use the Rails console to check that the database contains the data after seeding. Make the following checks:
+  - Get the artist of the first song. Which command did you use?
+  - Get all the songs for the first artist. Which command did you use?
 
 
 
@@ -167,11 +184,116 @@ $ rails db:seed
 
 
 
+*Check in console*, always keep rails console running in a separate terminal
+
+```shell
+$ rails console
+```
+
+```ruby
+> Artist.first
+> Song.first
+> Song.last.artist.name
+```
+
+
+
+#### Controllers & Views - Basic requirements
+
+##### Artists Overview Page
+
+Add an artists overview page that meets the following requirements:
+
+- Visitors can see a list of all the artists.
+- Each artist has one picture. It will be added to the app with an uploader. You will host this file in Cloudinary
+- When clicking on the name of an artist, visitors are redirected to the artist show page.
+
+#### Artist Show Page
+
+Add a show page for every artist that meets the following requirements:
+
+- Visitors can see a list of all the songs associated to the artist.
+- Visitors can add a new song to the artist.
+- Visitors can remove any song associated to the artist.
+- Visitors can delete an artist, including all songs associated to that artist.
+
+#### Model Tests
+
+- Add some validations to the `Song` and `Artist` models. Write corresponding tests for it using RSpec, FactoryGirl. (use Faker if you have to).
+- Write tests related to the association between the `Song` and `Artist` models.
+- In short: each and every concept in your model is tested!
+
+#### Deployment
+
+- Configure your app to be deployed.
+
+
+
+*Set up CarrierWave and Cloudinary*
+
+.Gemfile
+
+```ruby
+gem 'carrierwave', '0.11.2'
+gem 'cloudinary', '1.2.3'
+```
+
+```shell
+$ spring stop
+$ bundle install
+```
+
+```shell
+$ rails generate uploader image
+```
+
+*Set up Cloudinary*
+
+
+
+*Create overview page of Artists*
 
 
 
 
 
+*Setup testing*
+
+.Gemfile
+
+```ruby
+group :development, :test do
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+end
+
+group :test do
+  gem 'capybara', '~> 2.9', '>= 2.9.1'
+  gem 'shoulda-matchers', '~> 3.1'
+end
+
+group :development, :test do
+  gem 'factory_bot_rails'
+  gem 'faker'
+end
+```
+
+
+
+*Setup deployment*
+
+.Gemfile, top of file :
+
+```ruby
+source 'https://rubygems.org'
+# Add next line
+ruby '2.4.1'
+```
+
+.Gemfile
+
+```ruby
+gem 'rails_12factor', group: :production
+```
 
 
 
