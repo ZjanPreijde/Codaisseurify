@@ -13,7 +13,7 @@ App Codaisseurify
 
 *Create app Codaisseurify*, no testing (-T), postgresql as database, no turbolinks
 
-```
+```shell
 $ rails new Codaisseurify -T --database=postgresql --skip-turbolinks  
 $ cd Codaisseurify
 $ rails server
@@ -22,7 +22,7 @@ $ rails server
 
 *check* on : http://localhost:3000  -> Yay! You're on Rails! (shows Rails version, Ruby version)
 
-```
+```ruby
 > exit
 ```
 
@@ -56,20 +56,33 @@ Created database 'Codaisseurify_test'
 
 
 
-*Create repository on github.com*
+*Create remote repository on github.com*
 
 https://github.com/ZjanPreijde/Codaisseurify
 
 
 
-*Create local repository and link it to remote repository*
+*Create local repository, link it to remote repository and update remote repository*
 
-```
+```shell
 $ git init
 $ git add . 
 $ git commit -m "Created app Codaisseurify"
 $ git remote add origin git@github.com:ZjanPreijde/Codaisseurify.git
 $ git push origin master
+```
+
+***Commit changes regularly***
+
+```shell
+$ git add .
+$ git commit -m "Meaningfull message"
+```
+
+*and push them to remote once in a while*
+
+```shell
+$ git push origin remote
 ```
 
 
@@ -105,7 +118,7 @@ Running via Spring preloader in process 28846
 $ rails db:migrate
 ```
 
-If relation pre-existed, this migration will generate an error PB::DuplicateColumn: Error column "artist_id" of relation "song" already exists. Just delete the migration from ./db/migrate/
+If relation pre-existed, this migration will generate an error PG::DuplicateColumn: Error column "artist_id" of relation "song" already exists. Just delete the migration from ./db/migrate/
 
 
 
@@ -148,7 +161,7 @@ Song.create!(title: "Give It Away", artist: jay)
 
 *Run the seed*
 
-```
+```shell
 $ rails db:seed
 ```
 
