@@ -2,17 +2,53 @@
       <%= render "shared/body_header" %>
 
       <div class="panel-heading">
-        <p><%= @artist.name %></p>
+        <div class="cfy-name-artist text-center">
+          <h1><%= @artist.name %></h1>
+        </div>
       </div>
 
       <div class="panel-body">
-      <% @songs.each do |song| %>
-        <div class="col-md-12">
-          <p>
-            <%= song.title %>
-          </p>
+        <div class="text-center">
+          <a href="#" class="btn btn-default btn-warning btn-lg">Delete Artist</a>
         </div>
-      <% end %>
+      </div>
+
+      <hr>
+
+      <div class="panel-body">
+        <div class="cfy-add-song text-center">
+          <div class="form-group">
+            <label>Upload Photos : </label>
+            <span class="btn btn-default cu-btn-upload-images">
+              <%= file_field_tag "images[]", type: :file %>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="panel-body">
+        <ul>
+          <% @songs.each do |song| %>
+            <div class="col-md-6">
+              <li>
+                <%= song.title %>
+              </li>
+            </div>
+            <div class="col-md-4">
+              <a href="#" class="cfy-delete-song btn btn-default btn-warning btn-lg">Delete song</a>
+            </div>
+          <% end %>
+        </ul>
+      </div>
+
+      <hr>
+
+      <div class="panel-body">
+        <div class="cfy-add-song text-center">
+          <a href="#" class="btn btn-default btn-success btn-lg">Add song</a>
+        </div>
       </div>
 
       <!-- Render body_footer -->

@@ -569,9 +569,89 @@ App on Heroku : https://cfy-zjan.herokuapp.com/
 
 
 
-*Create overview page of Artists*
+*Create Artists Overview Page*
+
+*./apps/models/artist.rb*
+
+```
+no change
+```
+
+*./app/views/artists/index.html.erb*
+
+```erb
+      <div class="panel-heading">
+        <p><%= @artist.name %></p>
+      </div>
+
+      <div class="panel-body">
+      <% @songs.each do |song| %>
+        <div class="col-md-12">
+          <p>
+            <%= song.title %>
+          </p>
+        </div>
+      <% end %>
+      </div>
+      <hr>
+```
+
+*./apps/controllers/artist_controller.rb*
+
+```ruby
+  def index
+    @artists = Artist.all
+  end
+```
 
 
 
+*Create Artist Show Page*
 
+*./apps/models/artist.rb*
+
+```
+no change
+```
+
+*./apps/views/artists/show.html.erb*
+
+```erb
+      <div class="panel-heading">
+        <p><%= @artist.name %></p>
+      </div>
+
+      <div class="panel-body">
+      <% @songs.each do |song| %>
+        <div class="col-md-12">
+          <p>
+            <%= song.title %>
+          </p>
+        </div>
+      <% end %>
+      </div>
+```
+
+*./apps/controllers/artist_controller.rb*
+
+```ruby
+  before_action :set_artist, only: %i[show edit update]
+
+  def show
+    @songs = @artist.songs
+  end
+
+private
+
+  def set_artist
+    @artist = Artist.find(params[:id])
+  end
+
+  def artist_params
+    params
+      .require(:artist)
+      .permit(:name)
+  end
+
+```
 

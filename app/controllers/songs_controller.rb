@@ -1,4 +1,7 @@
 class SongsController < ApplicationController
-  belongs_to :artist, dependent: :destroy
-  validates :title, presence: true
+  def destroy
+    song = Song.find(params[:id])
+    song.destroy
+    redirect_to artist_path(@artist), notice: "Song successfully removed"
+  end
 end
