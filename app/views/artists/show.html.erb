@@ -2,15 +2,17 @@
       <%= render "shared/body_header" %>
 
       <div class="panel-heading">
-        <h1 class="text-center">Codaisseurify!</h1>
+        <p><%= @artist.name %></p>
       </div>
 
       <div class="panel-body">
-
-        <div class="col-md-12 text-center">
-          Ready for a whole new Spotify?
-          <%= link_to "Meet our Artists", artists_path, class: "btn btn-default" %>
+      <% @songs.each do |song| %>
+        <div class="col-md-12">
+          <p>
+            <%= song.title %>
+          </p>
         </div>
+      <% end %>
       </div>
 
       <!-- Render body_footer -->

@@ -1,6 +1,25 @@
-<h1>Welcome to the Artists page</h1>
-<ul>
-<% Artist.each do |artist| %>
-  <li><%= artist.name %></li>
-<% end %>
-</ul>
+      <!-- Render body_header -->
+      <%= render "shared/body_header" %>
+
+      <div class="panel-heading">
+        <p>Our Artists</p>
+      </div>
+
+      <div class="panel-body">
+      <% @artists.each do |artist| %>
+        <% @songs = artist.songs %>
+        <div class="col-md-6">
+          <p>
+            <%= link_to artist.name, artist, class: "btn btn-default" %>
+          </p>
+          <ul>
+          <% @songs.each do |song| %>
+            <li><%=song.title%></li>
+          <% end %>
+          </ul>
+        </div>
+        <% end %>
+      </div>
+
+      <!-- Render body_footer -->
+      <%= render "shared/body_footer" %>

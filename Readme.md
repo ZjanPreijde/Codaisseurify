@@ -37,6 +37,8 @@ $ rails server
 >
 ```
 
+(At this point the local git repository is also initiated, no need for `$ git init`)
+
 *check* on : http://localhost:3000  -> Yay! You're on Rails! (shows Rails version, Ruby version)
 
 ```ruby
@@ -79,10 +81,9 @@ https://github.com/ZjanPreijde/Codaisseurify
 
 
 
-*Create local repository, link it to remote repository and update remote repository*
+*Update local repository, link it to remote repository and update remote repository*
 
 ```shell
-$ git init
 $ git add . 
 $ git commit -m "Created app Codaisseurify"
 $ git remote add origin git@github.com:ZjanPreijde/Codaisseurify.git
@@ -117,6 +118,85 @@ Solved it by :
 
 ```shell
 $ git remote set-url origin git@github.com:ZjanPreijde/CodeDojo-TennisScore.git
+```
+
+
+
+*Create home page*
+
+```shell
+$ rails generate controller pages home
+```
+
+*./apps/controllers/pages_controller.rb*
+
+```ruby
+class PagesController < ApplicationController
+  def home
+  end
+end
+```
+
+*./config/routes.rb*
+
+```ruby
+Rails.application.routes.draw do
+  get 'pages/home'
+end
+
+```
+
+*./spec/features/home_page_spec.rb*
+
+* Rspec is NOT set up as testing environment.
+* Don know yet how Minitest tests and asserts. Check out later if necessary
+
+```ruby
+require 'test_helper'
+
+class PageTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
+end
+```
+
+
+
+- Rspec is set up as testing environment.
+
+```ruby
+# rspec spec/controllers/pages_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe PagesController, type: :controller do
+
+  describe "GET #home" do
+    it "returns http success" do
+      get :home
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+end
+```
+
+```ruby
+# rspec spec/views/pages/home.html.erb_spec.rb
+require 'rails_helper'
+
+RSpec.describe "pages/home.html.erb", type: :view do
+  # pending "add some examples to (or delete) #{__FILE__}"
+  it "should return Rails default text" do
+    visit root_url
+    expect(page).to have_content "Pages#home"
+  end
+end
+```
+
+
+```shell
+$ rspec
 ```
 
 
@@ -259,9 +339,9 @@ Add a show page for every artist that meets the following requirements:
 
 
 
-Setup styling
+<u>*Setup styling*</u>
 
-.Gemfile
+*.Gemfile*
 
 ```ruby
 # Use Bootstrap for styling
@@ -300,13 +380,14 @@ $ bundle install
 
 <u>Stumbled up on</u> :
 
-- Don't forget to change the extension of application.css
+- Don't forget to change the extension of application.css to .scss
 
 
 
-*Set up CarrierWave and Cloudinary*
 
-.Gemfile
+<u>*Set up CarrierWave and Cloudinary*</u>
+
+*.Gemfile*
 
 ```ruby
 gem 'carrierwave', '0.11.2'
@@ -332,9 +413,11 @@ end
 
 
 
-*Setup testing*
+<u>*Setup Rspec testing*</u>
 
-.Gemfile
+* default is Minitest
+
+*.Gemfile*
 
 ```ruby
 # For testing
@@ -358,9 +441,23 @@ $ spring stop
 $ bundle install
 ```
 
+*Setup Rspec for application*
+
+```shell
+$ spring stop
+$ rails generate rspec:install
+$ rbenv rehash
+$ rails db:migrate
+$ rspec
+```
 
 
-*Setup deployment* (Heroku is installed, Cloudinary environment variable is set)
+
+<u>*Setup deployment*</u>
+
+* Heroku is installed on local machine
+* $ heroku auth:whoami   =>  YOUR_USER_NAME
+* You must always be in the <u>master branch</u> when pushing code to Heroku
 
 *.Gemfile*, top of file :
 
@@ -384,14 +481,26 @@ $ bundle install
 
 *Set up Heroku app locally*
 
+* Heroku needs an app-name
+
 ```shell
 $ heroku create cfy_zjan
-$ heroku config:set CLOUDINARY_URL=$CLOUDINARY_URL
 ```
 
 <u>Stumbled up on</u> :
 
 - Heroku does not know what to do before you define the app-name for current project.
+
+
+
+If Cloudinary is set up ( Cloudinary environment variable is set):
+
+*Config heroku to use content hosting service*
+
+```shell
+$ heroku config:set CLOUDINARY_URL=$CLOUDINARY_URL
+```
+
 
 
 
@@ -402,20 +511,7 @@ $ rails generate controller Artists
 $ rails generate controller Songs
 ```
 
-*Create controller for home page*
 
-```shell
-$ rails generate controller pages home
-```
-
-*./apps/views/pages_controller.erb*
-
-```ruby
-class PagesController < ApplicationController
-  def home
-  end
-end
-```
 
 *./apps/views/pages/home.html.erb*
 
@@ -457,6 +553,10 @@ App on Heroku : https://cfy-zjan.herokuapp.com/
 <u>Stumbled up on</u> : 
 
 - Heroku deployment process : Warning: the running version of Bundler (1.15.2) is older than the version that created the lockfile (1.16.1). We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.
+- When generating a new Rails app, one of the messages is `Using bundler 1.16.1`
+- What's happening? What is the running version of Bundler?
+
+
 
 
 
@@ -464,6 +564,8 @@ App on Heroku : https://cfy-zjan.herokuapp.com/
 - [x] Push to github
 - [x] Deploy to Heroku
 - [x] Heroku Home page is up
+
+
 
 
 
